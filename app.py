@@ -36,6 +36,11 @@ db = SQLAlchemy(app)
 
 # ── ffmpeg finder ──────────────────────────────────────────────────────────────
 def _find_ffmpeg():
+    # ✅ Cek /tmp untuk Vercel environment
+    for path in ['/tmp/ffmpeg', '/tmp/bin/ffmpeg', '/usr/local/bin/ffmpeg']:
+        if os.path.isfile(path) and os.access(path, os.X_OK):
+            return path
+    
     p = shutil.which("ffmpeg")
     if p:
         return p
