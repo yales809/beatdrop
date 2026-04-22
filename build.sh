@@ -1,13 +1,22 @@
 #!/bin/bash
-echo "📦 Installing ffmpeg static binary..."
+set -e
 
-# Download static ffmpeg binary (no sudo needed)
-curl -sL https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz -o /tmp/ffmpeg.tar.xz
-cd /tmp
-tar -xf ffmpeg.tar.xz
-cp ffmpeg-*-amd64-static/ffmpeg /tmp/ffmpeg
-cp ffmpeg-*-amd64-static/ffprobe /tmp/ffprobe
-chmod +x /tmp/ffmpeg /tmp/ffprobe
-rm -rf ffmpeg-*-amd64-static ffmpeg.tar.xz
+echo "📦 Installing ffmpeg..."
 
-echo "✅ ffmpeg installed to /tmp/"
+# Try install via apt first
+if command -v apt-get &> /dev/null; then
+    apt-get update -qq
+    apt-get install -y -qq ffmpeg > /dev/null 2>&1 || true
+fi
+
+# Verify installation
+if command -v ffmpeg &> /dev/null; then
+    echo "✅ ffmpeg installed successfully"
+    ffmpeg -version | head -1
+else
+    echo "⚠️  ffmpeg tidak terinstall"
+fi
+
+# Copy to /tmp as backup
+mkdir -p /tmp/bin
+which ffmpeg > /dev/null && cp $(which ffmpeg) /tmp/ffmpeg 2>/dev/null || true
