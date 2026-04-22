@@ -24,8 +24,8 @@ from datetime import datetime
 import yt_dlp
 
 BASE   = os.path.dirname(os.path.abspath(__file__))
-DL_DIR = os.path.join(BASE, "downloads")
-DB_DIR = os.path.join(BASE, "instance")
+DL_DIR = '/tmp/downloads'
+DB_DIR = '/tmp/instance'
 os.makedirs(DL_DIR, exist_ok=True)
 os.makedirs(DB_DIR, exist_ok=True)
 
