@@ -1,4 +1,5 @@
 {
+  "buildCommand": "bash build.sh && pip install -r requirements.txt",
   "builds": [
     {
       "src": "app.py",
